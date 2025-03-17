@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { College } from '../entity/college';
+import { ClassOrCourse, CourseType } from '../entity/classOrCourse';
 
 @Component({
   selector: 'app-common-popup',
@@ -11,6 +12,9 @@ export class CommonPopupComponent {
   college: College = new College();
   logoImageBase64: string | null = null;
 
+  classOrCourses: ClassOrCourse[] = [new ClassOrCourse()];
+  courseTypes = Object.values(CourseType);
+
   constructor(
     public dialogRef: MatDialogRef<CommonPopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -20,7 +24,9 @@ export class CommonPopupComponent {
       this.logoImageBase64=this.college.collegeLogo;
     }
   }
-  
+  ngOnInit(){
+   
+  }
 
   closeDialog() {
     this.dialogRef.close();
@@ -57,5 +63,17 @@ export class CommonPopupComponent {
   clearImage() {
     this.logoImageBase64 = null;
   }
+  addCourse(): void {
+    if (!this.college.classOrCourse) {
+      this.college.classOrCourse = [];
+    }
+    this.college.classOrCourse.push(new ClassOrCourse());
+  }
   
+
+  removeCourse(index: number): void {
+    if (this.college.classOrCourse.length > 1) {
+      this.college.classOrCourse.splice(index, 1);
+    }
+  }
 }

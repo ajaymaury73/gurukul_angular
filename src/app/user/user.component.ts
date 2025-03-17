@@ -29,6 +29,7 @@ export class UserComponent {
 
   ngOnInit() {
     this.getAllUsers();
+    this.getAllTenats();
   }
 
   ngAfterViewInit() {
@@ -44,6 +45,13 @@ export class UserComponent {
     this.service.getAllUser().subscribe((data: any) => {
       this.dataSource.data = data;
      this.pagination();
+    });
+  }
+ 
+  tenants:[]=[];
+  getAllTenats() {
+    this.service.getAllTenats().subscribe((data: any) => {
+     this.tenants=data;
     });
   }
   saveUser() {

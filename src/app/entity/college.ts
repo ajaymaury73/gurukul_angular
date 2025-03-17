@@ -1,3 +1,5 @@
+import { ClassOrCourse } from "./classOrCourse";
+
 export class College {
     id!: string;
     collegeName!: string;
@@ -30,4 +32,5 @@ export class College {
     safetyFeatures!: string;
     recognizedByGovernment!: boolean;
     scholarshipsOffered!: string[];
+    classOrCourse:ClassOrCourse[]=[];
 }

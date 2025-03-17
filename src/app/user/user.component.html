@@ -103,7 +103,15 @@
                   <input matInput type="text" [(ngModel)]="user.department" name="department" required>
                 </mat-form-field>
               </div>
-      
+              <div class="col-md-6 col-sm-6">
+                <mat-form-field class="full-width">
+                  <mat-label>Select Tenant</mat-label>
+                  <mat-select multiple [(ngModel)]="user.collegeTenantId" name="collegeTenantId">
+                    <mat-option *ngFor="let tenant of tenants" [value]="tenant">{{ tenant }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
               <div class="col-md-6 col-sm-6">
                 <mat-form-field class="full-width">
                   <mat-label>Select Roles</mat-label>
@@ -112,6 +120,10 @@
                   </mat-select>
                 </mat-form-field>
               </div>
+
+
+      
+             
             </div>
           </div>
       

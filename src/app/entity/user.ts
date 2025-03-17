@@ -16,4 +16,5 @@ export class User {
   joiningDate!: Date;
   department!: string;
   gender!:string;
+  collegeTenantId!:string;
 }

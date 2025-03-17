@@ -39,4 +39,8 @@ updateUser(id: string, user: User) {
   return this.dataService.addObject(url + 'user/update-user?' + params, JSON.stringify(user));
 }
 
+getAllTenats(){
+  const url = `${this.urlConstant.SERVER_PORT}`;
+  return this.dataService.getObjects(url + 'user/get-tenantId');
+}
 }
