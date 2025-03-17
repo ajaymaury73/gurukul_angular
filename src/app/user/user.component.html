@@ -1,0 +1,210 @@
+<div class="text-center" *ngIf="!isShowForm">
+    <button mat-flat-button color="accent" class="mb-3" (click)="addUser()">
+      <mat-icon>add</mat-icon> Add User
+    </button>
+  </div>
+  
+<div *ngIf="isShowForm">
+    <mat-card class="form-container card shadow-lg">
+        <h2 class="text-center">Register User</h2>
+        <form #userForm="ngForm">
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6 col-sm-6">
+                <mat-form-field class="full-width">
+                  <mat-label>Username</mat-label>
+                  <input matInput type="text" [(ngModel)]="user.username" name="username" required>
+                </mat-form-field>
+              </div>
+      
+              <div class="col-md-6 col-sm-6">
+                <mat-form-field class="full-width">
+                  <mat-label>First Name</mat-label>
+                  <input matInput type="text" [(ngModel)]="user.firstName" name="firstName" required>
+                </mat-form-field>
+              </div>
+      
+              <div class="col-md-6 col-sm-6">
+                <mat-form-field class="full-width">
+                  <mat-label>Last Name</mat-label>
+                  <input matInput type="text" [(ngModel)]="user.lastName" name="lastName" required>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-6 col-sm-6">
+                <mat-form-field class="full-width">
+                  <mat-label>Gender</mat-label>
+                  <mat-select [(ngModel)]="user.gender" name="gender" required>
+                    <mat-option value="Male">Male</mat-option>
+                    <mat-option value="Female">Female</mat-option>
+                    <mat-option value="Other">Other</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              
+      
+              <div class="col-md-6 col-sm-6">
+                <mat-form-field class="full-width">
+                  <mat-label>Email</mat-label>
+                  <input matInput type="email" [(ngModel)]="user.email" name="email" required>
+                </mat-form-field>
+              </div>
+      
+              <div class="col-md-6 col-sm-6">
+                <mat-form-field class="full-width">
+                  <mat-label>Mobile Number</mat-label>
+                  <input matInput type="tel" [(ngModel)]="user.mobileNumber" name="mobileNumber" required>
+                </mat-form-field>
+              </div>
+      
+              <div class="col-md-6 col-sm-6">
+                <mat-form-field class="full-width">
+                  <mat-label>Father's Name</mat-label>
+                  <input matInput type="text" [(ngModel)]="user.fatherName" name="fatherName">
+                </mat-form-field>
+              </div>
+      
+              <div class="col-md-6 col-sm-6">
+                <mat-form-field class="full-width">
+                  <mat-label>Mother's Name</mat-label>
+                  <input matInput type="text" [(ngModel)]="user.motherName" name="motherName">
+                </mat-form-field>
+              </div>
+      
+              <div class="col-md-6 col-sm-6">
+                <mat-form-field class="full-width">
+                  <mat-label>Father's Mobile Number</mat-label>
+                  <input matInput type="tel" [(ngModel)]="user.fatherMobileNumber" name="fatherMobileNumber">
+                </mat-form-field>
+              </div>
+      
+              <div class="col-md-6 col-sm-6">
+                <mat-form-field class="full-width">
+                  <mat-label>Date of Birth</mat-label>
+                  <input matInput [matDatepicker]="pickerDob" [(ngModel)]="user.dob" name="dob">
+                  <mat-datepicker-toggle matSuffix [for]="pickerDob"></mat-datepicker-toggle>
+                  <mat-datepicker #pickerDob></mat-datepicker>
+                </mat-form-field>
+              </div>
+      
+              <div class="col-md-6 col-sm-6">
+                <mat-form-field class="full-width">
+                  <mat-label>Joining Date</mat-label>
+                  <input matInput [matDatepicker]="pickerJoining" [(ngModel)]="user.joiningDate" name="joiningDate">
+                  <mat-datepicker-toggle matSuffix [for]="pickerJoining"></mat-datepicker-toggle>
+                  <mat-datepicker #pickerJoining></mat-datepicker>
+                </mat-form-field>
+              </div>
+      
+              <div class="col-md-6 col-sm-6">
+                <mat-form-field class="full-width">
+                  <mat-label>Department</mat-label>
+                  <input matInput type="text" [(ngModel)]="user.department" name="department" required>
+                </mat-form-field>
+              </div>
+      
+              <div class="col-md-6 col-sm-6">
+                <mat-form-field class="full-width">
+                  <mat-label>Select Roles</mat-label>
+                  <mat-select multiple [(ngModel)]="user.roles" name="roles">
+                    <mat-option *ngFor="let role of roles" [value]="role">{{ role }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+      
+          <!-- Button Section -->
+         
+      
+          <div mat-dialog-actions align="end">
+            <button mat-raised-button color="primary" class="m-2" (click)="saveUser()"  >Save</button>
+            <button mat-raised-button color="accent" class="m-2" type="button" (click)="onReset()">Reset</button>
+            <!-- <button mat-raised-button color="warn" class="m-2" type="button" (click)="onUpdate()">Update</button> -->
+            <button mat-raised-button color="warn" class="m-2" type="button" (click)="onCancel()">Cancel</button> 
+          </div>
+   
+        </form>
+      </mat-card>
+      
+</div>
+
+<div class="container card shadow-lg" *ngIf="!isShowForm">
+  <!-- Search Filter -->
+  <mat-form-field class="filter">
+    <mat-label>Search Users</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Type to search...">
+  </mat-form-field>
+
+
+
+  <!-- User Table -->
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    
+    <!-- ID Column -->
+    <!-- <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+      <td mat-cell *matCellDef="let user">{{ user.id }}</td>
+    </ng-container> -->
+
+    <!-- Username Column -->
+    <ng-container matColumnDef="username">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Username</th>
+      <td mat-cell *matCellDef="let user">{{ user.username }}</td>
+    </ng-container>
+
+    <!-- First Name Column -->
+    <ng-container matColumnDef="firstName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>First Name</th>
+      <td mat-cell *matCellDef="let user">{{ user.firstName }}</td>
+    </ng-container>
+
+    <!-- Last Name Column -->
+    <ng-container matColumnDef="lastName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</th>
+      <td mat-cell *matCellDef="let user">{{ user.lastName }}</td>
+    </ng-container>
+
+    <!-- Email Column -->
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+      <td mat-cell *matCellDef="let user">{{ user.email }}</td>
+    </ng-container>
+
+    <!-- Mobile Number Column -->
+    <ng-container matColumnDef="mobileNumber">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Mobile</th>
+      <td mat-cell *matCellDef="let user">{{ user.mobileNumber }}</td>
+    </ng-container>
+
+    <!-- Roles Column -->
+    <ng-container matColumnDef="roles">
+      <th mat-header-cell *matHeaderCellDef>Roles</th>
+      <td mat-cell *matCellDef="let user">{{ user.roles.join(', ') }}</td>
+    </ng-container>
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let user">
+        <button mat-button color="primary" (click)="editUser(user)" ><i class="fas fa-edit"></i> </button>
+        <button mat-button color="warn" (click)="deleteUser(user.id)" > <i class="fas fa-trash"></i> </button>
+      </td>
+    </ng-container>
+
+    <!-- Table Header -->
+    <thead>
+      <tr  mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    </thead>
+
+    <!-- Table Body -->
+    <tbody>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </tbody>
+  </table>
+
+  <!-- Pagination -->
+  <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+</div>
+

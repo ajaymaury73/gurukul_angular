@@ -1,0 +1,29 @@
+.form-container {
+    max-width: 80vb;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .full-width {
+    width: 100%;
+  }
+  
+  .container {
+    width: 100%;
+    margin: 20px auto;
+  }
+  
+  mat-form-field.filter {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  table {
+    width: 100%;
+  }
+  
+  .mat-elevation-z8 {
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  

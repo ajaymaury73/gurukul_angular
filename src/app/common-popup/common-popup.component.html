@@ -1,0 +1,175 @@
+<div *ngIf="data.popupType === 'college'">
+  <h3 mat-dialog-title>{{ data.college ? 'Edit College' : 'Add College' }}</h3>
+  <hr>
+
+  <div mat-dialog-content>
+    <form #collegeForm="ngForm">
+      <!-- College Logo Upload -->
+      <div class="form-group">
+        <div *ngIf="logoImageBase64" class="mt-2 text-center">
+          <img [src]="logoImageBase64" alt="College Logo" style="max-width: 100px; max-height: 100px;" />
+          <br />
+          <button type="button" class="btn btn-sm btn-danger mt-2" (click)="clearImage()">Remove Image</button>
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-4">
+            <label for="collegeLogo">Upload Logo</label>
+          </div>
+          <div class="col-md-8">
+            <input type="file" id="collegeLogo" (change)="onImageUpload($event)" />
+          </div>
+        </div>
+      </div>
+
+      <!-- College Name -->
+      <div class="form-group row mt-2">
+        <div class="col-md-4">
+          <label for="collegeName">College Name</label>
+        </div>
+        <div class="col-md-8">
+          <input type="text" id="collegeName" name="collegeName" [(ngModel)]="college.collegeName" class="form-control" required />
+        </div>
+      </div>
+
+      <!-- Pincode -->
+      <div class="form-group row mt-2">
+        <div class="col-md-4">
+          <label for="pincode">Pincode</label>
+        </div>
+        <div class="col-md-8">
+          <input type="text" id="pincode" name="pincode" [(ngModel)]="college.pincode" class="form-control" required />
+        </div>
+      </div>
+
+      <!-- Address -->
+      <div class="form-group row mt-2">
+        <label class="col-md-4" for="address">Address</label>
+        <div class="col-md-8">
+          <textarea id="address" name="address" [(ngModel)]="college.address" class="form-control" required></textarea>
+        </div>
+      </div>
+
+      <!-- Mobile Number -->
+      <div class="form-group row mt-2">
+        <div class="col-md-4">
+          <label for="mobileNumber">Mobile Number</label>
+        </div>
+        <div class="col-md-8">
+          <input type="text" id="mobileNumber" name="mobileNumber" [(ngModel)]="college.mobileNumber" class="form-control" required />
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group row mt-2">
+        <div class="col-md-4">
+          <label for="email">Email</label>
+        </div>
+        <div class="col-md-8">
+          <input type="email" id="email" name="email" [(ngModel)]="college.email" class="form-control" required />
+        </div>
+      </div>
+
+      <!-- College Tenant ID -->
+      <div class="form-group row  mt-2">
+        <div class="col-md-4">
+          <label for="collegeTenantId">College Tenant ID</label>
+        </div>
+        <div class="col-md-8">
+          <input type="text" id="collegeTenantId" name="collegeTenantId" [(ngModel)]="college.collegeTenantId" class="form-control" required />
+        </div>
+      </div>
+
+      <!-- Principal Name -->
+      <div class="form-group row mt-2">
+        <label class="col-md-4" for="principalName">Principal Name</label>
+        <div class="col-md-8">
+          <input type="text" id="principalName" name="principalName" [(ngModel)]="college.principalName" class="form-control" />
+        </div>
+      </div>
+
+      <!-- Tagline -->
+      <div class="form-group row mt-2">
+        <label class="col-md-4" for="tagline">Tagline</label>
+        <div class="col-md-8">
+          <input type="text" id="tagline" name="tagline" [(ngModel)]="college.tagline" class="form-control" />
+        </div>
+      </div>
+
+      <!-- Accreditation -->
+      <div class="form-group row mt-2">
+        <label class="col-md-4" for="accreditation">Accreditation</label>
+        <div class="col-md-8">
+          <input type="text" id="accreditation" name="accreditation" [(ngModel)]="college.accreditation" class="form-control" />
+        </div>
+      </div>
+
+      <!-- University Name -->
+      <div class="form-group row mt-2">
+        <label class="col-md-4" for="universityName">University Name</label>
+        <div class="col-md-8">
+          <input type="text" id="universityName" name="universityName" [(ngModel)]="college.universityName" class="form-control" />
+        </div>
+      </div>
+
+      <!-- Established Year -->
+      <div class="form-group row mt-2">
+        <label class="col-md-4" for="establishedYear">Established Year</label>
+        <div class="col-md-8">
+          <input type="number" id="establishedYear" name="establishedYear" [(ngModel)]="college.establishedYear" class="form-control" />
+        </div>
+      </div>
+
+      <!-- Total Students -->
+      <div class="form-group row mt-2">
+        <label class="col-md-4" for="totalStudents">Total Students</label>
+        <div class="col-md-8">
+          <input type="number" id="totalStudents" name="totalStudents" [(ngModel)]="college.totalStudents" class="form-control" />
+        </div>
+      </div>
+
+      <!-- College Type -->
+      <div class="form-group row mt-2">
+        <label class="col-md-4" for="collegeType">College Type</label>
+        <div class="col-md-8">
+          <select id="collegeType" name="collegeType" [(ngModel)]="college.collegeType" class="form-control">
+            <option value="Public">Public</option>
+            <option value="Private">Private</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- College Ranking -->
+      <div class="form-group row mt-2">
+        <label class="col-md-4" for="collegeRanking">College Ranking</label>
+        <div class="col-md-8">
+          <input type="text" id="collegeRanking" name="collegeRanking" [(ngModel)]="college.collegeRanking" class="form-control" />
+        </div>
+      </div>
+
+      <!-- Hostel Availability -->
+      <div class="form-group row mt-2">
+        <label class="col-md-4" for="hostelAvailable">Hostel Available</label>
+        <div class="col-md-8">
+          <input type="checkbox" id="hostelAvailable" name="hostelAvailable" [(ngModel)]="college.hostelAvailable" />
+        </div>
+      </div>
+
+      <!-- Website URL -->
+      <div class="form-group row mt-2">
+        <label class="col-md-4" for="websiteUrl">Website URL</label>
+        <div class="col-md-8">
+          <input type="url" id="websiteUrl" name="websiteUrl" [(ngModel)]="college.websiteUrl" class="form-control" />
+        </div>
+      </div>
+
+      <div mat-dialog-actions align="end">
+        <button mat-button class="text-success m-2" (click)="closeDialog()">Cancel</button>
+        <button mat-button class="text-secondary m-2" (click)="resetForm()">Reset</button>
+        <button mat-button class="text-danger m-2" [disabled]="collegeForm.invalid" (click)="saveCollege()">Save</button>
+      </div>
+
+    </form>
+  </div>
+
+ 
+</div>

@@ -1,0 +1,61 @@
+<div class="container mt-5 d-flex flex-column align-items-center">
+    <!-- Add College Button -->
+    <button mat-flat-button color="accent" class="mb-3" (click)="openCollegePopUp(college)">
+        <mat-icon>add</mat-icon> Add College
+    </button>
+
+    <div *ngIf="colleges.length === 0" class="text-center text-muted">
+        <p>No colleges found.</p>
+    </div>
+
+    <div *ngIf="colleges.length > 0" class="col-md-12">
+        <div class="card shadow-lg border-0 rounded-4 p-4 mt-2" *ngFor="let college of colleges">
+            <div class="text-center">
+                <img [src]="college.collegeLogo" alt="College Logo" 
+                    class="img-fluid rounded-circle border shadow-sm mb-3"
+                    style="width: 150px; height: 150px; object-fit: cover;" />
+
+                <h3 class="text-primary fw-bold">{{ college.collegeName }}</h3>
+                <p class="text-muted">{{ college.collegeType }}</p>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-5">
+                    <p><strong>Accreditation:</strong> {{ college.accreditation }}</p>
+                    <p><strong>Ranking:</strong> {{ college.collegeRanking || 'N/A' }}</p>
+                    <p><strong>Principal:</strong> {{ college.principalName }}</p>
+                    <p><strong>Established:</strong> {{ college.establishedYear }}</p>
+                </div>
+                <div class="col-md-2">
+
+                </div>
+                <div class="col-md-5">
+                    <p><strong>Students:</strong> {{ college.totalStudents }}</p>
+                    <p><strong>Courses:</strong> {{ college.totalCourses }}</p>
+                    <p><strong>Hostel Available:</strong> 
+                        <span class="text-success" *ngIf="college.hostelAvailable">Yes</span>
+                        <span class="text-danger" *ngIf="!college.hostelAvailable">No</span>
+                    </p>
+                    <p><strong>Address:</strong> {{ college.address }}, {{ college.pincode }}</p>
+                </div>
+            </div>
+
+            <div class="text-center mt-3">
+                <p><strong>Website:</strong> 
+                    <a [href]="college.websiteUrl" target="_blank" class="text-decoration-none">
+                        {{ college.websiteUrl }}
+                    </a>
+                </p>
+            </div>
+
+            <div class="d-flex justify-content-center gap-3 mt-3">
+                <button mat-flat-button color="primary" (click)="openCollegePopUp(college)">
+                    <mat-icon>edit</mat-icon> Edit
+                </button>
+                <button mat-flat-button color="warn" (click)="deleteCollege(college.id)">
+                    <mat-icon>delete</mat-icon> Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

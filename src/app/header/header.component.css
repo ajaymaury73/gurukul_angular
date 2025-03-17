@@ -1,0 +1,25 @@
+.navbar {
+    padding: 10px 15px;
+}
+
+.navbar-brand img {
+    border-radius: 50%;
+}
+
+.navbar-toggler {
+    border: none;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+.d-flex button {
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    .navbar-brand h3 {
+        font-size: 1.2rem;
+    }
+}
