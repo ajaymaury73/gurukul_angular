@@ -5,6 +5,7 @@ import { UserService } from '../services/user.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
+import { CourseType } from '../entity/classOrCourse';
 
 @Component({
   selector: 'app-user',
@@ -13,18 +14,23 @@ import { MatPaginator } from '@angular/material/paginator';
 })
 export class UserComponent {
   user: User = new User();
-  roles = Object.values(Role); 
+  roles = Object.values(Role);
   isUpdate = false;
   isShowForm = false;
 
   displayedColumns: string[] = ['username', 'firstName', 'lastName', 'email', 'mobileNumber', 'roles', 'actions'];
+  courseTypes = Object.values(CourseType);
+  courses: string[] = []; // Holds courses based on selected courseType
+
   dataSource = new MatTableDataSource<User>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  Role = Role;
+
+  tenants: [] = [];
 
   constructor(private service: UserService, private cdRef: ChangeDetectorRef) {
-
-    this.user.roles = []; 
+    this.user.roles = [];
   }
 
   ngOnInit() {
@@ -33,10 +39,10 @@ export class UserComponent {
   }
 
   ngAfterViewInit() {
- this.pagination();
+    this.pagination();
   }
 
-  pagination(){
+  pagination() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -44,46 +50,37 @@ export class UserComponent {
   getAllUsers() {
     this.service.getAllUser().subscribe((data: any) => {
       this.dataSource.data = data;
-     this.pagination();
+      this.pagination();
     });
   }
- 
-  tenants:[]=[];
+
   getAllTenats() {
     this.service.getAllTenats().subscribe((data: any) => {
-     this.tenants=data;
+      this.tenants = data;
     });
   }
+
   saveUser() {
     if (this.isUpdate) {
       this.service.updateUser(this.user.id!, this.user).subscribe({
-        next: () => {
-        
-        },
+        next: () => {},
         error: err => console.error("Update failed:", err)
       });
     } else {
       this.service.saveUser(this.user).subscribe({
-        next: () => {
-    
-        },
+        next: () => {},
         error: err => console.error("Save failed:", err)
       });
-
     }
     this.refreshUserList();
   }
-  
 
   refreshUserList() {
     this.getAllUsers();
     this.onReset();
-    this.isShowForm = false; 
-    this.isUpdate = false; 
+    this.isShowForm = false;
+    this.isUpdate = false;
   }
-  
-  
-  
 
   addUser() {
     this.isShowForm = true;
@@ -98,10 +95,9 @@ export class UserComponent {
         this.user = { ...originalUser };
       }
     } else {
-      this.user = new User(); 
+      this.user = new User();
     }
   }
-  
 
   onCancel() {
     this.isShowForm = false;
@@ -115,15 +111,28 @@ export class UserComponent {
   }
 
   editUser(user: User) {
-    this.user = { ...user }; 
+    this.user = { ...user };
     this.isUpdate = true;
     this.isShowForm = true;
   }
-
- 
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
     this.dataSource.filter = filterValue;
   }
+
+
+onCourseTypeChange() {
+  const courseTypes = Array.isArray(this.user.courseType) ? this.user.courseType : [this.user.courseType];
+
+  if (courseTypes.length) {
+    this.service.getCoursesByType(courseTypes).subscribe((data: any) => {
+        this.courses = data;
+      },
+    );
+  } else {
+    this.courses = []; 
+  }
+}
+
 }

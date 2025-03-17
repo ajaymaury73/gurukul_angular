@@ -1,5 +1,6 @@
 .navbar {
     padding: 10px 15px;
+    background-color: rgb(136, 214, 26);
 }
 
 .navbar-brand img {
@@ -22,4 +23,8 @@
     .navbar-brand h3 {
         font-size: 1.2rem;
     }
+}
+
+.font-college{
+font-weight: 500;
 }

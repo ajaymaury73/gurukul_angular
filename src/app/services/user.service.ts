@@ -43,4 +43,14 @@ getAllTenats(){
   const url = `${this.urlConstant.SERVER_PORT}`;
   return this.dataService.getObjects(url + 'user/get-tenantId');
 }
+
+getCoursesByType(courseTypes: string[]) {
+  const url = `${this.urlConstant.SERVER_PORT}`;
+  const params: URLSearchParams = new URLSearchParams();
+
+  courseTypes.forEach(type => params.append('courseType', type));
+
+  return this.dataService.getObjects(`${url}user/get-courses?${params.toString()}`);
+}
+
 }

@@ -34,6 +34,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { CommonFooterComponent } from './common-footer/common-footer.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+
 
 
 
@@ -67,7 +70,8 @@ function initializeKeycloak(keycloak: KeycloakService) {
     CollegeComponent,
     StudentComponent,
     FacultyComponent,
-    UserComponent
+    UserComponent,
+    CommonFooterComponent
   ],
   imports: [
     BrowserModule,
@@ -90,6 +94,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
     MatNativeDateModule,
     MatCheckboxModule,
     MatPaginatorModule,
+    MatToolbarModule,
 
 
 

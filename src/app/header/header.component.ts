@@ -74,6 +74,24 @@ export class HeaderComponent {
   }
 
  
+  themes = [
+    { bgColor: 'rgb(255, 255, 255)', textColor: 'black' } ,
+    { bgColor: 'rgb(136, 214, 26)', textColor: 'black' },   // Green
+    { bgColor: 'rgb(52, 152, 219)', textColor: 'white' },   // Blue
+    { bgColor: 'rgb(231, 76, 60)', textColor: 'white' },    // Red
+    { bgColor: 'rgb(231, 153, 255)', textColor: 'black' } ,   // Yellow
+     // Yellow
+
+  ];
+  
+  currentThemeIndex = 0;
+  currentTheme = this.themes[this.currentThemeIndex]; // Default theme
+
+  changeTheme() {
+    this.currentThemeIndex = (this.currentThemeIndex + 1) % this.themes.length;
+    this.currentTheme = this.themes[this.currentThemeIndex]; // Update theme
+  }
+
   
   
 }

@@ -6,6 +6,7 @@ export class User {
   firstName!: string;
   lastName!: string;
   roles!: Role[];
+  rollNumber!:string;
   email!: string;
   password?: string;
   mobileNumber!: string;
@@ -17,4 +18,6 @@ export class User {
   department!: string;
   gender!:string;
   collegeTenantId!:string;
+  courseType!:string;
+  className!:string;
 }
