@@ -3,13 +3,13 @@
   <hr>
 
   <div mat-dialog-content>
-    <form #collegeForm="ngForm">
+    <form #collegeForm="ngForm" class="card shadow-lg bg-white p-3">
       <!-- College Logo Upload -->
       <div class="form-group">
         <div *ngIf="logoImageBase64" class="mt-2 text-center">
           <img [src]="logoImageBase64" alt="College Logo" style="max-width: 100px; max-height: 100px;" />
           <br />
-          <button type="button" class="btn btn-sm btn-danger mt-2" (click)="clearImage()">Remove Image</button>
+          <button mat-button color="warn" class="mt-2" (click)="clearImage()">Remove Image</button>
         </div>
         <div class="row mt-2">
           <div class="col-md-4">
@@ -21,155 +21,190 @@
         </div>
       </div>
 
-      <!-- College Name -->
-      <div class="form-group row mt-2">
-        <div class="col-md-4">
-          <label for="collegeName">College Name</label>
+      <div class="row">
+        <!-- College Name -->
+        <div class="col-md-6 col-sm-6 mt-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>College Name</mat-label>
+            <input matInput type="text" name="collegeName" [(ngModel)]="college.collegeName" required />
+          </mat-form-field>
         </div>
-        <div class="col-md-8">
-          <input type="text" id="collegeName" name="collegeName" [(ngModel)]="college.collegeName" class="form-control" required />
+
+        <!-- Pincode -->
+        <div class="col-md-6 col-sm-6 mt-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Pincode</mat-label>
+            <input matInput type="text" name="pincode" [(ngModel)]="college.pincode" required />
+          </mat-form-field>
+        </div>
+
+        <!-- Address -->
+        <div class="col-md-6 col-sm-6 mt-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Address</mat-label>
+            <textarea matInput name="address" [(ngModel)]="college.address" required></textarea>
+          </mat-form-field>
+        </div>
+
+        <!-- Mobile Number -->
+        <div class="col-md-6 col-sm-6 mt-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Mobile Number</mat-label>
+            <input matInput type="text" name="mobileNumber" [(ngModel)]="college.mobileNumber" required />
+          </mat-form-field>
+        </div>
+
+        <!-- Email -->
+        <div class="col-md-6 col-sm-6 mt-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" name="email" [(ngModel)]="college.email" required />
+          </mat-form-field>
+        </div>
+
+        <!-- College Tenant ID -->
+        <div class="col-md-6 col-sm-6 mt-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>College Tenant ID</mat-label>
+            <input matInput type="text" name="collegeTenantId" [(ngModel)]="college.collegeTenantId" required />
+          </mat-form-field>
+        </div>
+
+        <!-- Principal Name -->
+        <div class="col-md-6 col-sm-6 mt-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Principal Name</mat-label>
+            <input matInput type="text" name="principalName" [(ngModel)]="college.principalName" />
+          </mat-form-field>
+        </div>
+
+        <!-- Tagline -->
+        <div class="col-md-6 col-sm-6 mt-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Tagline</mat-label>
+            <input matInput type="text" name="tagline" [(ngModel)]="college.tagline" />
+          </mat-form-field>
+        </div>
+
+        <!-- Accreditation -->
+        <div class="col-md-6 col-sm-6 mt-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Accreditation</mat-label>
+            <input matInput type="text" name="accreditation" [(ngModel)]="college.accreditation" />
+          </mat-form-field>
+        </div>
+
+        <!-- University Name -->
+        <div class="col-md-6 col-sm-6 mt-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>University Name</mat-label>
+            <input matInput type="text" name="universityName" [(ngModel)]="college.universityName" />
+          </mat-form-field>
+        </div>
+
+        <!-- Established Year -->
+        <div class="col-md-6 col-sm-6 mt-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Established Year</mat-label>
+            <input matInput type="number" name="establishedYear" [(ngModel)]="college.establishedYear" />
+          </mat-form-field>
+        </div>
+
+        <!-- Total Students -->
+        <div class="col-md-6 col-sm-6 mt-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Total Students</mat-label>
+            <input matInput type="number" name="totalStudents" [(ngModel)]="college.totalStudents" />
+          </mat-form-field>
+        </div>
+
+        <!-- College Type -->
+        <div class="col-md-6 col-sm-6 mt-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>College Type</mat-label>
+            <mat-select name="collegeType" [(ngModel)]="college.collegeType">
+              <mat-option value="Public">Public</mat-option>
+              <mat-option value="Private">Private</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- Website URL -->
+        <div class="col-md-6 col-sm-6 mt-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Website URL</mat-label>
+            <input matInput type="url" name="websiteUrl" [(ngModel)]="college.websiteUrl" />
+          </mat-form-field>
         </div>
       </div>
-
-      <!-- Pincode -->
-      <div class="form-group row mt-2">
-        <div class="col-md-4">
-          <label for="pincode">Pincode</label>
-        </div>
-        <div class="col-md-8">
-          <input type="text" id="pincode" name="pincode" [(ngModel)]="college.pincode" class="form-control" required />
-        </div>
-      </div>
-
-      <!-- Address -->
-      <div class="form-group row mt-2">
-        <label class="col-md-4" for="address">Address</label>
-        <div class="col-md-8">
-          <textarea id="address" name="address" [(ngModel)]="college.address" class="form-control" required></textarea>
-        </div>
-      </div>
-
-      <!-- Mobile Number -->
-      <div class="form-group row mt-2">
-        <div class="col-md-4">
-          <label for="mobileNumber">Mobile Number</label>
-        </div>
-        <div class="col-md-8">
-          <input type="text" id="mobileNumber" name="mobileNumber" [(ngModel)]="college.mobileNumber" class="form-control" required />
-        </div>
-      </div>
-
-      <!-- Email -->
-      <div class="form-group row mt-2">
-        <div class="col-md-4">
-          <label for="email">Email</label>
-        </div>
-        <div class="col-md-8">
-          <input type="email" id="email" name="email" [(ngModel)]="college.email" class="form-control" required />
-        </div>
-      </div>
-
-      <!-- College Tenant ID -->
-      <div class="form-group row  mt-2">
-        <div class="col-md-4">
-          <label for="collegeTenantId">College Tenant ID</label>
-        </div>
-        <div class="col-md-8">
-          <input type="text" id="collegeTenantId" name="collegeTenantId" [(ngModel)]="college.collegeTenantId" class="form-control" required />
-        </div>
-      </div>
-
-      <!-- Principal Name -->
-      <div class="form-group row mt-2">
-        <label class="col-md-4" for="principalName">Principal Name</label>
-        <div class="col-md-8">
-          <input type="text" id="principalName" name="principalName" [(ngModel)]="college.principalName" class="form-control" />
-        </div>
-      </div>
-
-      <!-- Tagline -->
-      <div class="form-group row mt-2">
-        <label class="col-md-4" for="tagline">Tagline</label>
-        <div class="col-md-8">
-          <input type="text" id="tagline" name="tagline" [(ngModel)]="college.tagline" class="form-control" />
-        </div>
-      </div>
-
-      <!-- Accreditation -->
-      <div class="form-group row mt-2">
-        <label class="col-md-4" for="accreditation">Accreditation</label>
-        <div class="col-md-8">
-          <input type="text" id="accreditation" name="accreditation" [(ngModel)]="college.accreditation" class="form-control" />
-        </div>
-      </div>
-
-      <!-- University Name -->
-      <div class="form-group row mt-2">
-        <label class="col-md-4" for="universityName">University Name</label>
-        <div class="col-md-8">
-          <input type="text" id="universityName" name="universityName" [(ngModel)]="college.universityName" class="form-control" />
-        </div>
-      </div>
-
-      <!-- Established Year -->
-      <div class="form-group row mt-2">
-        <label class="col-md-4" for="establishedYear">Established Year</label>
-        <div class="col-md-8">
-          <input type="number" id="establishedYear" name="establishedYear" [(ngModel)]="college.establishedYear" class="form-control" />
-        </div>
-      </div>
-
-      <!-- Total Students -->
-      <div class="form-group row mt-2">
-        <label class="col-md-4" for="totalStudents">Total Students</label>
-        <div class="col-md-8">
-          <input type="number" id="totalStudents" name="totalStudents" [(ngModel)]="college.totalStudents" class="form-control" />
-        </div>
-      </div>
-
-      <!-- College Type -->
-      <div class="form-group row mt-2">
-        <label class="col-md-4" for="collegeType">College Type</label>
-        <div class="col-md-8">
-          <select id="collegeType" name="collegeType" [(ngModel)]="college.collegeType" class="form-control">
-            <option value="Public">Public</option>
-            <option value="Private">Private</option>
-          </select>
-        </div>
-      </div>
-
       <!-- College Ranking -->
-      <div class="form-group row mt-2">
-        <label class="col-md-4" for="collegeRanking">College Ranking</label>
-        <div class="col-md-8">
-          <input type="text" id="collegeRanking" name="collegeRanking" [(ngModel)]="college.collegeRanking" class="form-control" />
-        </div>
+      <div class="col-md-6 col-sm-6 mt-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>College Ranking</mat-label>
+          <input matInput type="text" name="collegeRanking" [(ngModel)]="college.collegeRanking" />
+        </mat-form-field>
       </div>
 
       <!-- Hostel Availability -->
-      <div class="form-group row mt-2">
-        <label class="col-md-4" for="hostelAvailable">Hostel Available</label>
-        <div class="col-md-8">
-          <input type="checkbox" id="hostelAvailable" name="hostelAvailable" [(ngModel)]="college.hostelAvailable" />
+      <div class="col-md-6 col-sm-6 mt-2">
+        <mat-checkbox name="hostelAvailable" [(ngModel)]="college.hostelAvailable">Hostel Available</mat-checkbox>
+      </div>
+
+      <div class="card shadow-lg p-2">
+        <h3 class="title">
+          <i class="fas fa-book-open"></i> Courses Offered
+        </h3>
+
+        <div *ngFor="let course of college.classOrCourse; let i = index" class="row course-form">
+          <!-- Course Name -->
+          <div class="col-md-6 col-sm-12">
+            <label for="courseName-{{i}}">
+              <i class="fas fa-file-signature"></i> Course Name:
+            </label>
+            <input type="text" id="courseName-{{i}}" [(ngModel)]="course.name" name="courseName-{{i}}"
+              class="form-control" required>
+          </div>
+
+          <!-- Course Type -->
+          <div class="col-md-5 col-sm-12">
+            <label for="courseType-{{i}}">
+              <i class="fas fa-list-alt"></i> Course Type:
+            </label>
+            <select id="courseType-{{i}}" [(ngModel)]="course.courseType" name="courseType-{{i}}" class="form-control"
+              required>
+              <option *ngFor="let type of courseTypes" [value]="type">{{ type }}</option>
+            </select>
+          </div>
+
+          <!-- Remove Button -->
+          <div class="col-md-1 col-sm-12 d-flex align-items-end">
+            <button type="button" class="btn btn-danger w-100" (click)="removeCourse(i)"
+              *ngIf="college.classOrCourse.length > 1">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="row mt-3">
+          <div class="col-12 text-center">
+            <button type="button" class="btn btn-primary" (click)="addCourse()">
+              <i class="fas fa-plus"></i> Add More Course
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- Website URL -->
-      <div class="form-group row mt-2">
-        <label class="col-md-4" for="websiteUrl">Website URL</label>
-        <div class="col-md-8">
-          <input type="url" id="websiteUrl" name="websiteUrl" [(ngModel)]="college.websiteUrl" class="form-control" />
-        </div>
-      </div>
+      <!-- Add Course Button -->
+
+
+
+
 
       <div mat-dialog-actions align="end">
-        <button mat-button class="text-success m-2" (click)="closeDialog()">Cancel</button>
-        <button mat-button class="text-secondary m-2" (click)="resetForm()">Reset</button>
-        <button mat-button class="text-danger m-2" [disabled]="collegeForm.invalid" (click)="saveCollege()">Save</button>
+        <button mat-raised-button color="warn" class="m-2" (click)="closeDialog()">Cancel</button>
+        <button mat-raised-button color="accent" class="m-2" (click)="resetForm()">Reset</button>
+        <button mat-raised-button color="primary" class="m-2" [disabled]="collegeForm.invalid"
+          (click)="saveCollege()">Save</button>
       </div>
-
     </form>
   </div>
-
- 
 </div>
