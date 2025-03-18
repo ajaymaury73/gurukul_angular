@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { KeycloakService } from 'keycloak-angular';
 import { AdminService } from '../services/admin.service';
 import { KeycloakProfile } from 'keycloak-js';
@@ -11,79 +12,73 @@ import { KeycloakProfile } from 'keycloak-js';
 export class HeaderComponent {
   isAuthenticated = false;
   userProfile: KeycloakProfile | null = null;
-  http: any;
   userRoles: string[] = [];
 
-
-  constructor(private keycloakService: KeycloakService, private adminService: AdminService) {
+  constructor(private keycloakService: KeycloakService, private adminService: AdminService, private router: Router) {
     this.loadUserDetails();
-    //  this.loadUserRoles();
   }
-  
-  ngOnInit(){
-  
-  }
-  
+
   async loadUserDetails() {
     this.isAuthenticated = await this.keycloakService.isLoggedIn();
-  
+
     if (this.isAuthenticated) {
       try {
         this.userProfile = await this.keycloakService.loadUserProfile();
-        console.log("User Profile:", this.userProfile);
-  
         const keycloakInstance = this.keycloakService.getKeycloakInstance();
         const decodedToken: any = keycloakInstance.tokenParsed;
-  
-        // Fetch Client Roles
-        const clientId = 'gurukul_client';
+
+        // Fetch client-specific roles
+        const clientId = 'gurukul_client'; // Update with your actual Keycloak client ID
         let clientRoles = decodedToken?.resource_access?.[clientId]?.roles || [];
-  
-        // Fetch Realm Roles
+
+        // Fetch realm roles
         let realmRoles = decodedToken?.realm_access?.roles || [];
-  
-        // Combine both roles
+
+        // Combine roles
         this.userRoles = [...clientRoles, ...realmRoles];
-  
-        console.log(`All Roles for ${clientId}:`, this.userRoles);
-  
-        // Check if the user has a specific role (e.g., 'admin')
-        const specificRole = "ADMIN"; // Change this to the role you want to check
-        if (this.userRoles.includes(specificRole)) {
-          console.log(`User has the role: ${specificRole}`);
-        } else {
-          console.log(`User does NOT have the role: ${specificRole}`);
-        }
-  
+
+        console.log("User Roles:", this.userRoles);
+
+        // Redirect based on role
+        this.redirectUser();
       } catch (error) {
         console.error("Error loading user profile", error);
       }
     }
   }
-  
-  
 
-  
+  redirectUser() {
+    if (this.userRoles.includes('ADMIN')) {
+      this.router.navigate(['/admin']);
+    } else if (this.userRoles.includes('TEACHER')) {
+      this.router.navigate(['/faculty']);
+    } else if (this.userRoles.includes('COLLEGE')) {
+      this.router.navigate(['/college']);
+    } else if (this.userRoles.includes('USER')) {
+      this.router.navigate(['/user']);
+    } else {
+      this.router.navigate(['/']); // Default fallback
+    }
+  }
 
   login() {
-    this.keycloakService.login();
+    this.keycloakService.login().then(() => {
+      this.loadUserDetails(); // Reload details and redirect after login
+    });
   }
 
   logout() {
     this.keycloakService.logout();
   }
 
- 
   themes = [
-    { bgColor: 'rgb(255, 255, 255)', textColor: 'black' } ,
+    { bgColor: 'rgb(255, 255, 255)', textColor: 'black' },
     { bgColor: 'rgb(136, 214, 26)', textColor: 'black' },   // Green
     { bgColor: 'rgb(52, 152, 219)', textColor: 'white' },   // Blue
     { bgColor: 'rgb(231, 76, 60)', textColor: 'white' },    // Red
-    { bgColor: 'rgb(231, 153, 255)', textColor: 'black' } ,   // Yellow
-     // Yellow
-
+    { bgColor: 'rgb(231, 153, 255)', textColor: 'black' }   // Yellow
   ];
-  
+
   currentThemeIndex = 0;
   currentTheme = this.themes[this.currentThemeIndex]; // Default theme
 
@@ -91,7 +86,4 @@ export class HeaderComponent {
     this.currentThemeIndex = (this.currentThemeIndex + 1) % this.themes.length;
     this.currentTheme = this.themes[this.currentThemeIndex]; // Update theme
   }
-
-  
-  
 }
