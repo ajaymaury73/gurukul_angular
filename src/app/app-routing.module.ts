@@ -12,16 +12,34 @@ import { UserComponent } from './user/user.component';
 
 
 const routes: Routes = [
-  { path: '', component: AdminComponent },
-  { path: 'faculty', component:FacultyComponent },
-  { path: 'college', component:CollegeComponent },
-  { path: 'user', component:UserComponent },
-
-
-
-  { path: 'secure', component: SecureComponent, canActivate: [AuthGuard] }
-
+  { path: '', component: HomeComponent },
+  { 
+    path: 'admin', 
+    component: AdminComponent, 
+    canActivate: [AuthGuard], 
+    data: { roles: ['ADMIN'] } 
+  },
+  { 
+    path: 'faculty', 
+    component: FacultyComponent, 
+    canActivate: [AuthGuard], 
+    data: { roles: ['TEACHER'] } 
+  },
+  { 
+    path: 'college', 
+    component: CollegeComponent, 
+  },
+  { 
+    path: 'user', 
+    component: UserComponent, 
+  },
+  { 
+    path: 'secure', 
+    component: SecureComponent, 
+    canActivate: [AuthGuard] 
+  }
 ];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

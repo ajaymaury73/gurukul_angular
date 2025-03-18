@@ -1,8 +1,6 @@
-import { KeycloakService } from 'keycloak-angular';
-
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
-import { KeycloakAuthGuard } from 'keycloak-angular';
+import { KeycloakAuthGuard, KeycloakService } from 'keycloak-angular';
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +16,18 @@ export class AuthGuard extends KeycloakAuthGuard implements CanActivate {
       await this.keycloak.login();
       return false;
     }
+
+    const requiredRoles = route.data['roles'] as string[];
+    if (!requiredRoles || requiredRoles.length === 0) {
+      return true; // Allow access if no roles are required
+    }
+
+    const hasRole = requiredRoles.some(role => this.roles.includes(role));
+    if (!hasRole) {
+      this.router.navigate(['/']); // Redirect if the user doesn't have access
+      return false;
+    }
+
     return true;
   }
 }
-
-
-
