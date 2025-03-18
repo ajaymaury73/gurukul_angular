@@ -1,0 +1,54 @@
+name: Deploy Angular Frontend
+
+on:
+  push:
+    branches:
+      - main  # Runs when code is pushed to main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set Up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Angular App
+        run: npm run build -- --configuration=production
+
+      - name: Set Up Docker
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker.io
+          docker --version
+
+      - name: Build & Push Docker Image
+        run: |
+          docker build -t your-dockerhub-username/angular-frontend .
+          echo "${{ secrets.DOCKER_HUB_PASS }}" | docker login -u "${{ secrets.DOCKER_HUB_USER }}" --password-stdin
+          docker push your-dockerhub-username/angular-frontend
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to AWS EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            docker pull your-dockerhub-username/angular-frontend
+            docker stop frontend || true
+            docker rm frontend || true
+            docker run -d -p 80:80 --name frontend your-dockerhub-username/angular-frontend
