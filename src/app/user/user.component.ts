@@ -5,7 +5,7 @@ import { UserService } from '../services/user.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { CourseType } from '../entity/classOrCourse';
+import { DegreeType } from '../entity/degree';
 
 @Component({
   selector: 'app-user',
@@ -19,7 +19,7 @@ export class UserComponent {
   isShowForm = false;
 
   displayedColumns: string[] = ['username', 'firstName', 'lastName', 'email', 'mobileNumber', 'roles', 'actions'];
-  courseTypes = Object.values(CourseType);
+  degreeTypes = Object.values(DegreeType);
   courses: string[] = []; // Holds courses based on selected courseType
 
   dataSource = new MatTableDataSource<User>();
@@ -123,7 +123,7 @@ export class UserComponent {
 
 
 onCourseTypeChange() {
-  const courseTypes = Array.isArray(this.user.courseType) ? this.user.courseType : [this.user.courseType];
+  const courseTypes = Array.isArray(this.user.degreeType) ? this.user.degreeType : [this.user.degreeType];
 
   if (courseTypes.length) {
     this.service.getCoursesByType(courseTypes).subscribe((data: any) => {

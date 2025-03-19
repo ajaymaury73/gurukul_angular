@@ -99,18 +99,18 @@
 
                 <mat-form-field class="full-width">
                   <mat-label>Select courseType</mat-label>
-                  <mat-select multiple [(ngModel)]="user.courseType" name="courseType" (ngModelChange)="onCourseTypeChange()">
-                    <mat-option *ngFor="let courseType of courseTypes" [value]="courseType">{{ courseType }}</mat-option>
+                  <mat-select multiple [(ngModel)]="user.degreeType" name="degreeType" (ngModelChange)="onCourseTypeChange()">
+                    <mat-option *ngFor="let degreeType of degreeTypes" [value]="degreeType">{{ degreeType }}</mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
 
-              <div *ngIf="user.courseType && user.roles?.includes(Role.STUDENT)" class="col-md-6 col-sm-6">
+              <div *ngIf="user.degreeType && user.roles?.includes(Role.STUDENT)" class="col-md-6 col-sm-6">
 
                 <mat-form-field class="full-width">
                   <mat-label>Select course</mat-label>
-                  <mat-select  [(ngModel)]="user.className" name="className" (ngModelChange)="onCourseTypeChange()">
-                    <mat-option *ngFor="let course of courses" [value]="course">{{ course }}</mat-option>
+                  <mat-select  [(ngModel)]="user.degreeName" name="degreeName">
+                    <mat-option *ngFor="let degreeName of courses" [value]="degreeName">{{ degreeName }}</mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>

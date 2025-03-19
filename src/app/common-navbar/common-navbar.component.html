@@ -1,27 +1,29 @@
 <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav mode="side" opened class="sidenav">
-      <div class="navbar">
-        <button mat-flat-button color="accent" (click)="manageCollege()" >
-          <mat-icon>school</mat-icon> Manage College
-        </button>
-        <button mat-flat-button color="accent" (click)="manageUser()" >
-          <mat-icon>school</mat-icon> Manage User
-        </button>
-      
-        <button mat-flat-button color="primary">
-          <mat-icon>event</mat-icon> Manage Academic Calendar
-        </button>
-        <button mat-flat-button color="primary">
-          <mat-icon>library_books</mat-icon> Manage Degree
-        </button>
-        <button mat-flat-button color="primary">
-          <mat-icon>book</mat-icon> Manage Courses
-        </button>
-      </div>
-    </mat-sidenav>
-  
-    <mat-sidenav-content>
-      <ng-content></ng-content>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
-  
+  <mat-sidenav mode="side" opened class="sidenav">
+    <div class="navbar">
+      <button *ngIf="hasRole('ADMIN')" mat-flat-button color="accent" (click)="manageCollege()">
+        <mat-icon>school</mat-icon> Manage College
+      </button>
+
+      <button *ngIf="hasRole('ADMIN') || hasRole('user_manager')" mat-flat-button color="accent" (click)="manageUser()">
+        <mat-icon>person</mat-icon> Manage User
+      </button>
+
+      <button *ngIf="hasRole('COLLEGE_ADMIN')" mat-flat-button color="primary">
+        <mat-icon>event</mat-icon> Manage Academic Calendar
+      </button>
+
+      <button *ngIf="hasRole('COLLEGE_ADMIN')" mat-flat-button color="primary">
+        <mat-icon>library_books</mat-icon> Manage Degree
+      </button>
+
+      <button *ngIf="hasRole('COLLEGE_ADMIN')" mat-flat-button color="primary">
+        <mat-icon>book</mat-icon> Manage Courses
+      </button>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>

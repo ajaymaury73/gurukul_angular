@@ -8,6 +8,7 @@ import { AdminComponent } from './admin/admin.component';
 import { FacultyComponent } from './faculty/faculty.component';
 import { CollegeComponent } from './college/college.component';
 import { UserComponent } from './user/user.component';
+import { CollegeAdminComponent } from './college-admin/college-admin.component';
 
 
 
@@ -24,6 +25,13 @@ const routes: Routes = [
     component: FacultyComponent, 
     canActivate: [AuthGuard], 
     data: { roles: ['TEACHER'] } 
+  },
+
+  { 
+    path: 'college_admin', 
+    component: CollegeAdminComponent, 
+    canActivate: [AuthGuard], 
+    data: { roles: ['COLLEGE_ADMIN'] } 
   },
   { 
     path: 'college', 
