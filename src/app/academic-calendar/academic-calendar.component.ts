@@ -121,14 +121,11 @@ export class AcademicCalendarComponent implements OnInit {
   
       this.adminService.updateAcademic(this.academicCalendar.id, this.academicCalendar).subscribe({
         next: (response) => {
-          console.log("Update successful", response);
           this.notificationService.showSuccess("Academic Calendar updated successfully!");
           this.getAllAcademicCalendar();
           this.isForm = false;
         },
         error: (err) => {
-          console.error("Update failed:", err);
-          console.error("Error details:", err.message, err.status, err.error); // Log more details
           this.notificationService.showError("Failed to update Academic Calendar!");
         }
       });
@@ -137,14 +134,11 @@ export class AcademicCalendarComponent implements OnInit {
   
       this.adminService.saveAcademic(this.academicCalendar).subscribe({
         next: (response) => {
-          console.log("Save successful", response);
           this.notificationService.showSuccess("Academic Calendar saved successfully!");
           this.getAllAcademicCalendar();
           this.isForm = false;
         },
         error: (err) => {
-          console.error("Save failed:", err);
-          console.error("Error details:", err.message, err.status, err.error); // Log more details
           this.notificationService.showError("Failed to save Academic Calendar!");
         }
       });

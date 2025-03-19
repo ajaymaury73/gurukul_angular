@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { DegreeType } from '../entity/degree';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-user',
@@ -29,7 +30,7 @@ export class UserComponent {
 
   tenants: [] = [];
 
-  constructor(private service: UserService, private cdRef: ChangeDetectorRef) {
+  constructor(private service: UserService, private cdRef: ChangeDetectorRef,public notificationService:NotificationService) {
     this.user.roles = [];
   }
 
@@ -62,18 +63,43 @@ export class UserComponent {
 
   saveUser() {
     if (this.isUpdate) {
-      this.service.updateUser(this.user.id!, this.user).subscribe({
-        next: () => {},
-        error: err => console.error("Update failed:", err)
+      if (!this.user.id) {
+        console.error("User ID is undefined!");
+        return;
+      }
+  
+      console.log("Data being sent for update:", this.user); // Log data
+  
+      this.service.updateUser(this.user.id, this.user).subscribe({
+        next: (response) => {
+          console.log("Update successful", response);
+          this.notificationService.showSuccess("User updated successfully!");
+          this.refreshUserList();
+        },
+        error: (err) => {
+          console.error("Update failed:", err);
+          console.error("Error details:", err.message, err.status, err.error); // Log more details
+          this.notificationService.showError("Failed to update User!");
+        }
       });
     } else {
+      console.log("Data being sent for save:", this.user); // Log data
+  
       this.service.saveUser(this.user).subscribe({
-        next: () => {},
-        error: err => console.error("Save failed:", err)
+        next: (response) => {
+          console.log("Save successful", response);
+          this.notificationService.showSuccess("User saved successfully!");
+          this.refreshUserList();
+        },
+        error: (err) => {
+          console.error("Save failed:", err);
+          console.error("Error details:", err.message, err.status, err.error); // Log more details
+          this.notificationService.showError("Failed to save User!");
+        }
       });
     }
-    this.refreshUserList();
   }
+  
 
   refreshUserList() {
     this.getAllUsers();
