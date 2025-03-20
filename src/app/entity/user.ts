@@ -18,6 +18,6 @@ export class User {
   department!: string;
   gender!:string;
   collegeTenantId!:string;
-  courseType!:string;
-  className!:string;
+  degreeType!:string;
+  degreeName!:string;
 }

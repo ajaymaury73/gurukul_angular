@@ -36,6 +36,12 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { CommonFooterComponent } from './common-footer/common-footer.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { CollegeAdminComponent } from './college-admin/college-admin.component';
+import { AcademicCalendarComponent } from './academic-calendar/academic-calendar.component';
+import { MatSortModule } from '@angular/material/sort';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { CourseEnrollementComponent } from './course-enrollement/course-enrollement.component';
+import { DegreeComponent } from './degree/degree.component';
 
 
 
@@ -71,7 +77,11 @@ function initializeKeycloak(keycloak: KeycloakService) {
     StudentComponent,
     FacultyComponent,
     UserComponent,
-    CommonFooterComponent
+    CommonFooterComponent,
+    CollegeAdminComponent,
+    AcademicCalendarComponent,
+    CourseEnrollementComponent,
+    DegreeComponent
   ],
   imports: [
     BrowserModule,
@@ -95,6 +105,8 @@ function initializeKeycloak(keycloak: KeycloakService) {
     MatCheckboxModule,
     MatPaginatorModule,
     MatToolbarModule,
+    MatSortModule,
+    MatSnackBarModule
 
 
 

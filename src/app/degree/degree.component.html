@@ -1,0 +1,152 @@
+<div class="text-center" *ngIf="!isForm">
+    <button mat-flat-button color="accent" class="mb-3" (click)="createDegree()">
+        <mat-icon>add</mat-icon> Create Degree
+    </button>
+</div>
+
+
+<div *ngIf="isForm">
+    <mat-card class="form-container card shadow-lg">
+        <form>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6">
+                        <mat-form-field class="full-width">
+                            <mat-label>Select College</mat-label>
+                            <mat-select [(ngModel)]="selectedCollege" name="selectedCollege">
+                                <mat-option *ngFor="let college of colleges" [value]="college.collegeTenantId">{{ college.collegeName }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        
+                    </div>
+                     
+                    <div class="col-md-6 col-sm-6">
+                        <mat-form-field class="full-width">
+                            <mat-label>Select Degree Type</mat-label>
+                            <mat-select [(ngModel)]="degree.degreeType" name="degreeType">
+                                <mat-option *ngFor="let degreeType of degreeTypes" [value]="degreeType">{{ degreeType }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-6 col-sm-6">
+                        <mat-form-field class="full-width">
+                            <mat-label>Degree Name</mat-label>
+                            <input matInput type="text" [(ngModel)]="degree.degreeName" name="degreeName" required>
+                        </mat-form-field>
+                    </div>
+
+                   
+                    <div class="col-md-12 col-sm-12" *ngFor="let department of degree.departments; let i = index">
+                        <mat-card class="p-3 mb-2 shadow">
+                            <div class="row">
+                              
+                                <div class="col-5">
+                                    <mat-form-field class="full-width">
+                                        <mat-label>Department Id</mat-label>
+                                        <input matInput type="text" [(ngModel)]="department.deptId" name="deptId{{i}}" required>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-5">
+                                    <mat-form-field class="full-width">
+                                        <mat-label>Department Name</mat-label>
+                                        <input matInput type="text" [(ngModel)]="department.departmentName" name="department{{i}}" required>
+                                    </mat-form-field>
+                                </div>
+
+
+                             
+
+                                <div class="col-1 text-right">
+                                    <button mat-icon-button color="warn" (click)="removeDepartment(i)" type="button">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </mat-card>
+                    </div>
+
+                    <div class="col-md-12 text-right mb-2" *ngIf="degree.degreeType && degree.degreeName">
+                        <button mat-mini-fab color="primary" (click)="addDepartment()" type="button">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                        <span>Add Departments</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <div mat-dialog-actions align="end">
+                <button mat-raised-button color="primary" class="m-2" (click)="saveOrUpdateDegree()" >
+                    <label *ngIf="!isUpdate" >Save</label>
+                    <label *ngIf="isUpdate">Update</label>
+
+                </button>
+                <button mat-raised-button color="accent" class="m-2" type="button" (click)="resetForm()" >Reset</button>
+                <button mat-raised-button color="warn" class="m-2" type="button" (click)="cancelForm()">Cancel</button>
+            </div>
+        </form>
+    </mat-card>
+</div>
+
+<div *ngIf="!isForm">
+    <mat-card class="card shadow-lg">
+        <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+            <!-- ID Column -->
+            <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+                <mat-cell *matCellDef="let degree"> {{ degree.id }} </mat-cell>
+            </ng-container>
+    
+            <!-- Degree Name Column -->
+            <ng-container matColumnDef="degreeName">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Degree Name </mat-header-cell>
+                <mat-cell *matCellDef="let degree"> {{ degree.degreeName }} </mat-cell>
+            </ng-container>
+    
+            <!-- Degree Type Column -->
+            <ng-container matColumnDef="degreeType">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Degree Type </mat-header-cell>
+                <mat-cell *matCellDef="let degree"> {{ degree.degreeType }} </mat-cell>
+            </ng-container>
+    
+            <!-- Departments Column -->
+            <ng-container matColumnDef="departments">
+                <mat-header-cell *matHeaderCellDef> Departments </mat-header-cell>
+                <mat-cell *matCellDef="let degree">
+                    <span *ngFor="let dept of degree.departments; let last = last">
+                        {{ dept.departmentName }}{{ last ? '' : ', ' }}
+                    </span>
+                </mat-cell>
+            </ng-container>
+    
+            <!-- College Tenant ID Column -->
+            <ng-container matColumnDef="collegeTenantId">
+                <mat-header-cell *matHeaderCellDef> College ID </mat-header-cell>
+                <mat-cell *matCellDef="let degree"> {{ degree.collegeTenantId }} </mat-cell>
+            </ng-container>
+    
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+                <mat-cell *matCellDef="let degree">
+                    <button mat-icon-button color="primary" (click)="editDegree(degree)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" (click)="deleteDegree(degree.id,degree.collegeTenantId)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+    
+            <!-- Table Headers -->
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <!-- Table Rows -->
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+    </mat-card>
+</div>

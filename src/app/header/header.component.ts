@@ -54,9 +54,10 @@ export class HeaderComponent {
       this.router.navigate(['/faculty']);
     } else if (this.userRoles.includes('COLLEGE')) {
       this.router.navigate(['/college']);
-    } else if (this.userRoles.includes('USER')) {
-      this.router.navigate(['/user']);
-    } else {
+    } else if (this.userRoles.includes('COLLEGE_ADMIN')) {
+      this.router.navigate(['/college_admin']);
+    }
+       else {
       this.router.navigate(['/']); // Default fallback
     }
   }
