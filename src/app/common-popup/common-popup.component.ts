@@ -70,19 +70,6 @@ export class CommonPopupComponent {
   clearImage() {
     this.logoImageBase64 = null;
   }
-  addCourse(): void {
-    if (!this.college.degree) {
-      this.college.degree = [];
-    }
-    this.college.degree.push(new Degree());
-  }
-  
-
-  removeCourse(index: number): void {
-    if (this.college.degree.length > 1) {
-      this.college.degree.splice(index, 1);
-    }
-  }
 
   onConfirm(): void {
     this.dialogRef.close(true);

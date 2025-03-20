@@ -32,4 +32,17 @@ export class CommonNavbarComponent {
   manageCollege() {
     this.router.navigate(['/college']);
   }
+
+  manageCourse(){
+    this.router.navigate(['/course-enrollement']);
+  }
+
+  manageDegree(){
+    this.router.navigate(['/degree']);
+  }
+  manageAcademic(){
+    this.router.navigate(['/academic-calendar']);
+
+  }
+
 }

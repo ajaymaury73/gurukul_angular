@@ -8,16 +8,18 @@
       <button *ngIf="hasRole('ADMIN') || hasRole('user_manager')" mat-flat-button color="accent" (click)="manageUser()">
         <mat-icon>person</mat-icon> Manage User
       </button>
-
-      <button *ngIf="hasRole('COLLEGE_ADMIN')" mat-flat-button color="primary">
-        <mat-icon>event</mat-icon> Manage Academic Calendar
-      </button>
-
-      <button *ngIf="hasRole('COLLEGE_ADMIN')" mat-flat-button color="primary">
+    
+      <button *ngIf="hasRole('COLLEGE_ADMIN')" mat-flat-button color="primary" (click)="manageDegree()">
         <mat-icon>library_books</mat-icon> Manage Degree
       </button>
 
-      <button *ngIf="hasRole('COLLEGE_ADMIN')" mat-flat-button color="primary">
+      <button *ngIf="hasRole('COLLEGE_ADMIN')" mat-flat-button color="primary" (click)="manageAcademic()">
+        <mat-icon>event</mat-icon> Academic Calendar
+      </button>
+
+   
+
+      <button *ngIf="hasRole('COLLEGE_ADMIN')" mat-flat-button color="primary" (click)="manageCourse()">
         <mat-icon>book</mat-icon> Manage Courses
       </button>
     </div>

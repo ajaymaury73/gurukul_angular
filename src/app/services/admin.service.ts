@@ -5,6 +5,7 @@ import { UrlConstant } from './url-constant.service';
 import { DataService } from './data.service';
 import { College } from '../entity/college';
 import { AcademicCalendar } from '../entity/academicCalendar';
+import { Degree } from '../entity/degree';
 
 @Injectable({
   providedIn: 'root'
@@ -78,4 +79,33 @@ deleteAcademic(id: string) {
 
   return this.dataService.getObjects(url + `college-admin/delete-academic-calendar?`+ params);
 }
+
+getAllDegree() {
+  const url = `${this.urlConstant.SERVER_PORT}`;
+  return this.dataService.getObjects(url + 'college-admin/get-all-degree');
+}
+
+saveOrUpdate(degree:Degree){
+  const url = `${this.urlConstant.SERVER_PORT}`;
+  return this.dataService.addObject(url + 'college-admin/save-update-degree', JSON.stringify(degree));
+}
+
+updateDegree(id: string, degree: Degree) {
+  const params: URLSearchParams = new URLSearchParams();
+  params.set('id', id);
+  const url = `${this.urlConstant.SERVER_PORT}`;
+  return this.dataService.addObject(url + `college-admin/update-degree?`+params, JSON.stringify(degree));
+}
+
+deleteDegree(id: string,collegeTenantId:string) {
+  const url = `${this.urlConstant.SERVER_PORT}`;
+  const params: URLSearchParams = new URLSearchParams();
+
+  params.set('id', id);
+  params.set('collegeTenantId', collegeTenantId);
+
+  return this.dataService.getObjects(url + `college-admin/delete-degree?`+ params);
+}
+
+
 }

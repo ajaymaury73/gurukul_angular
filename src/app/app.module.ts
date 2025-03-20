@@ -40,6 +40,8 @@ import { CollegeAdminComponent } from './college-admin/college-admin.component';
 import { AcademicCalendarComponent } from './academic-calendar/academic-calendar.component';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { CourseEnrollementComponent } from './course-enrollement/course-enrollement.component';
+import { DegreeComponent } from './degree/degree.component';
 
 
 
@@ -77,7 +79,9 @@ function initializeKeycloak(keycloak: KeycloakService) {
     UserComponent,
     CommonFooterComponent,
     CollegeAdminComponent,
-    AcademicCalendarComponent
+    AcademicCalendarComponent,
+    CourseEnrollementComponent,
+    DegreeComponent
   ],
   imports: [
     BrowserModule,
