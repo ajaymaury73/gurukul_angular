@@ -25,7 +25,7 @@ export class CourseEnrollementComponent {
       return;
     }
 
-    const apiUrl = `http://localhost:8075/college-admin/template?academicYear=${this.selectedAcademicYear}&degree=${this.selectedDegree}&semester=${this.selectedTerm}`;
+    const apiUrl = `http://localhost:8075/college-admin/template?academicYear=${this.selectedAcademicYear}&degreeName=${this.selectedDegree}&semester=${this.selectedTerm}`;
     
     this.http.get(apiUrl, { responseType: 'blob' }).subscribe(response => {
       const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
