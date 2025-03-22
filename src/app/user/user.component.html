@@ -95,7 +95,7 @@
                 </mat-form-field>
               </div>
 
-              <div *ngIf="user.roles?.includes(Role.STUDENT)" class="col-md-6 col-sm-6">
+              <!-- <div *ngIf="user.roles?.includes(Role.STUDENT)" class="col-md-6 col-sm-6">
 
                 <mat-form-field class="full-width">
                   <mat-label>Select courseType</mat-label>
@@ -103,7 +103,7 @@
                     <mat-option *ngFor="let degreeType of degreeTypes" [value]="degreeType">{{ degreeType }}</mat-option>
                   </mat-select>
                 </mat-form-field>
-              </div>
+              </div> -->
 
               <div *ngIf="user.degreeType && user.roles?.includes(Role.STUDENT)" class="col-md-6 col-sm-6">
 

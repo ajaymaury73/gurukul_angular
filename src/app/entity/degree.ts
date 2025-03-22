@@ -5,7 +5,6 @@ export class Degree {
     id!:string;
     degreeName!: string;
     degreeType!:string;
-    terms:Terms[]=[];
     departments:Department[]=[];
     collegeTenantId!:string;
   

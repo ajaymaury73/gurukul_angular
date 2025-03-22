@@ -107,5 +107,62 @@ deleteDegree(id: string,collegeTenantId:string) {
   return this.dataService.getObjects(url + `college-admin/delete-degree?`+ params);
 }
 
+getDepartmentsByDegree(collegeTenantId: string, courseType: string, degreeName: string) {
+  const url = `${this.urlConstant.SERVER_PORT}college-admin/get-departments`;
+  const params: URLSearchParams = new URLSearchParams();
+
+  params.append('collegeTenantId', collegeTenantId);
+  params.append('courseType', courseType);
+  params.append('degreeName', degreeName);
+
+  return this.dataService.getObjects(`${url}?${params.toString()}`);
+}
+
+onSelectCollegeGetAcademicYear(collegeTenantId:string){
+  const url = `${this.urlConstant.SERVER_PORT}`;
+  const params: URLSearchParams = new URLSearchParams();
+  params.set('collegeTenantId', collegeTenantId);
+  return this.dataService.getObjects(url + `college-admin/get-academicYear?`+ params);
+
+}
+getDegreeTypes(collegeTenantId:string,academicYear:string){
+  const url = `${this.urlConstant.SERVER_PORT}`;
+  const params: URLSearchParams = new URLSearchParams();
+  params.set('collegeTenantId', collegeTenantId);
+  params.set('academicYear', academicYear);
+
+  return this.dataService.getObjects(url + `college-admin/get-degreeType?`+ params);
+}
+
+getDegrees(collegeTenantId: string, academicYear: string, degreeType: string) {
+  const url = `${this.urlConstant.SERVER_PORT}`;
+  const params: URLSearchParams = new URLSearchParams();
+  params.set('collegeTenantId', collegeTenantId);
+  params.set('academicYear', academicYear);
+  params.set('degreeType', degreeType);
+  return this.dataService.getObjects(url + `college-admin/get-degrees?` + params);
+}
+
+getDepartments(collegeTenantId: string, academicYear: string, degreeType: string, degreeName: string) {
+  const url = `${this.urlConstant.SERVER_PORT}`
+
+  const params: URLSearchParams = new URLSearchParams();
+  params.set('collegeTenantId', collegeTenantId);
+  params.set('academicYear', academicYear);
+  params.set('degreeType', degreeType);
+  params.set('degreeName', degreeName);
+  return this.dataService.getObjects(url + `college-admin/get-departementIds?` + params);
+}
+
+getTerms(collegeTenantId: string, academicYear: string, degreeType: string, degreeName: string, deptId: string) {
+  const url = `${this.urlConstant.SERVER_PORT}`
+  const params: URLSearchParams = new URLSearchParams();
+  params.set('collegeTenantId', collegeTenantId);
+  params.set('academicYear', academicYear);
+  params.set('degreeType', degreeType);
+  params.set('degreeName', degreeName);
+  params.set('deptId', deptId);
+  return this.dataService.getObjects(url+ `college-admin/get-terms?` + params);
+}
 
 }

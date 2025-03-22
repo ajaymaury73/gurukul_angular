@@ -44,13 +44,16 @@ getAllTenats(){
   return this.dataService.getObjects(url + 'user/get-tenantId');
 }
 
-getCoursesByType(courseTypes: string[]) {
-  const url = `${this.urlConstant.SERVER_PORT}`;
+getDegreeByDegreeType(collegeTenantId: string, courseType: string) {
+  const url = `${this.urlConstant.SERVER_PORT}user/get-courses`;
   const params: URLSearchParams = new URLSearchParams();
 
-  courseTypes.forEach(type => params.append('courseType', type));
+  params.append('collegeTenantId', collegeTenantId);
+  params.append('courseType', courseType); // Now sending a single string
 
-  return this.dataService.getObjects(`${url}user/get-courses?${params.toString()}`);
+  return this.dataService.getObjects(`${url}?${params.toString()}`);
 }
+
+
 
 }

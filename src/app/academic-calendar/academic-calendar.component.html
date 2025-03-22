@@ -13,7 +13,20 @@
                     <div class="col-md-6 col-sm-6">
                         <mat-form-field class="full-width">
                             <mat-label>Academic Year</mat-label>
-                            <input matInput type="text" [(ngModel)]="academicCalendar.academicYear" name="academicYear" required>
+                            <input matInput type="text" [(ngModel)]="academicCalendar.academicYear" name="academicYear"
+                                required>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Select College -->
+                    <div class="col-md-6 col-sm-6">
+                        <mat-form-field class="full-width">
+                            <mat-label>Select College</mat-label>
+                            <mat-select [(ngModel)]="academicCalendar.collegeTenantId" name="collegeTenantId">
+                                <mat-option *ngFor="let college of colleges" [value]="college.collegeTenantId">
+                                    {{ college.collegeName }}
+                                </mat-option>
+                            </mat-select>
                         </mat-form-field>
                     </div>
 
@@ -21,37 +34,58 @@
                     <div class="col-md-6 col-sm-6">
                         <mat-form-field class="full-width">
                             <mat-label>Select Degree Type</mat-label>
-                            <mat-select [(ngModel)]="academicCalendar.degree.degreeType" name="degreeType" (ngModelChange)="onCourseTypeChange()">
-                                <mat-option *ngFor="let degreeType of degreeTypes" [value]="degreeType">{{ degreeType }}</mat-option>
+                            <mat-select [(ngModel)]="academicCalendar.degreeType" name="degreeType"
+                                (ngModelChange)="onCourseTypeChange()">
+                                <mat-option *ngFor="let degreeType of degreeTypes" [value]="degreeType">
+                                    {{ degreeType }}
+                                </mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
 
                     <!-- Select Degree -->
-                    <div class="col-md-6 col-sm-6" *ngIf="academicCalendar.degree.degreeType">
+                    <div class="col-md-6 col-sm-6" *ngIf="academicCalendar.degreeType">
                         <mat-form-field class="full-width">
                             <mat-label>Select Degree</mat-label>
-                            <mat-select [(ngModel)]="academicCalendar.degree.degreeName" name="degreeName">
-                                <mat-option *ngFor="let degreeName of degrees" [value]="degreeName">{{ degreeName }}</mat-option>
+                            <mat-select [(ngModel)]="academicCalendar.degreeName" name="degreeName"
+                                (ngModelChange)="onDegreeChange()">
+                                <mat-option *ngFor="let degree of degrees" [value]="degree">
+                                    {{ degree}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Select Department -->
+                    <div class="col-md-6 col-sm-6" *ngIf="academicCalendar.degreeName">
+                        <mat-form-field class="full-width">
+                            <mat-label>Select Department</mat-label>
+                            <mat-select [(ngModel)]="academicCalendar.deptId" name="deptId"
+                                >
+                                <mat-option *ngFor="let department of departments" [value]="department.deptId">
+                                    {{ department.departmentName }} -{{department.deptId}}
+                                </mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
 
                     <!-- Terms Section -->
-                    <div class="col-md-6 col-sm-6" *ngFor="let term of academicCalendar.degree.terms; let i = index">
+                    <div class="col-md-6 col-sm-6" *ngFor="let term of academicCalendar.terms; let i = index">
                         <mat-card class="p-3 mb-2 shadow">
                             <div class="row">
                                 <div class="col-6">
                                     <mat-form-field class="full-width">
                                         <mat-label>Term Name</mat-label>
-                                        <input matInput type="text" [(ngModel)]="term.termName" name="termName{{i}}" required>
+                                        <input matInput type="text" [(ngModel)]="term.termName"
+                                            name="termName{{ i }}" required>
                                     </mat-form-field>
                                 </div>
 
                                 <div class="col-5">
                                     <mat-form-field class="full-width">
                                         <mat-label>Term Number</mat-label>
-                                        <input matInput type="number" [(ngModel)]="term.termNumber" name="termNumber{{i}}" required>
+                                        <input matInput type="number" [(ngModel)]="term.termNumber"
+                                            name="termNumber{{ i }}" required>
                                     </mat-form-field>
                                 </div>
 
@@ -64,7 +98,8 @@
                         </mat-card>
                     </div>
 
-                    <div class="col-md-12 text-right mb-2" *ngIf="academicCalendar.degree.degreeType && academicCalendar.degree.degreeName">
+                    <!-- Add Term Button -->
+                    <div class="col-md-12 text-right mb-2" *ngIf="academicCalendar.deptId">
                         <button mat-mini-fab color="primary" (click)="addTerm()" type="button">
                             <mat-icon>add</mat-icon>
                         </button>
@@ -83,6 +118,7 @@
         </form>
     </mat-card>
 </div>
+
 
 <div class="container" *ngIf="!isForm">
     <h2>Academic Calendar</h2>
@@ -110,21 +146,28 @@
         <!-- Degree Name Column -->
         <ng-container matColumnDef="degreeName">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Degree Name</th>
-            <td mat-cell *matCellDef="let element">{{ element.degree.degreeName }}</td>
+            <td mat-cell *matCellDef="let element">{{ element.degreeName }}</td>
         </ng-container>
 
         <!-- Degree Type Column -->
         <ng-container matColumnDef="degreeType">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Degree Type</th>
-            <td mat-cell *matCellDef="let element">{{ element.degree.degreeType }}</td>
+            <td mat-cell *matCellDef="let element">{{ element.degreeType }}</td>
         </ng-container>
+
+        <ng-container matColumnDef="deptId">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Degree Name</th>
+            <td mat-cell *matCellDef="let element">{{ element.deptId }}</td>
+        </ng-container>
+     
+        
 
         <!-- Terms Column -->
         <ng-container matColumnDef="terms">
             <th mat-header-cell *matHeaderCellDef>Terms</th>
             <td mat-cell *matCellDef="let element">
                 <ul>
-                    <li *ngFor="let term of element.degree.terms">
+                    <li *ngFor="let term of element.terms">
                         {{ term.termName }} (Term {{ term.termNumber }})
                     </li>
                 </ul>
@@ -138,7 +181,7 @@
                 <button mat-icon-button color="primary" (click)="editAcademicCalendar(element)">
                     <mat-icon>edit</mat-icon>
                 </button>
-                <button mat-icon-button color="warn" (click)="deleteAcademicCalendar(element.id)" >
+                <button mat-icon-button color="warn" (click)="deleteAcademicCalendar(element.id)">
                     <mat-icon>delete</mat-icon>
                 </button>
             </td>

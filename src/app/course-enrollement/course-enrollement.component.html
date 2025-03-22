@@ -1,46 +1,112 @@
 <div class="container text-center">
-    <!-- Button to Show Form -->
-    <button mat-raised-button color="primary" (click)="toggleForm()">Download Template</button>
-  
-    <!-- Form appears when showForm is true -->
-    <div class="row justify-content-center mt-3" *ngIf="showForm">
-      <div class="col-md-6">
-        <div class="card p-4">
-          <h2 class="mb-3">Download Course Template</h2>
-  
-          <div class="form-group">
-            <mat-form-field appearance="outline">
-              <mat-label>Academic Year</mat-label>
-              <mat-select [(ngModel)]="selectedAcademicYear">
-                <mat-option *ngFor="let year of academicYears" [value]="year">{{ year }}</mat-option>
-              </mat-select>
-            </mat-form-field>
+  <!-- Button to Show Dialog -->
+  <button mat-raised-button color="primary" (click)="showPopup = true">
+      <mat-icon>cloud_download</mat-icon> Download Template
+  </button>
+
+  <!-- Upload Button -->
+  <button mat-raised-button color="accent" class="ml-2">
+      <mat-icon>upload</mat-icon> Upload Course XLS File
+  </button>
+</div>
+
+<!-- Pop-up Dialog -->
+<div class="container bg-white mt-3" *ngIf="showPopup">
+  <mat-card class="form-container card shadow-lg">
+      <h4 class="text-center">Download Course Template</h4>
+      <form>
+          <div class="container">
+              <div class="row">
+                  <!-- Select College -->
+                  <div class="col-md-6 col-sm-6">
+                      <mat-form-field class="full-width">
+                          <mat-label>Select College</mat-label>
+                          <mat-select [(ngModel)]="selectedCollege" (ngModelChange)="onSelectCollegeGetAcademicYear($event)" name="selectedCollege">
+                              <mat-option *ngFor="let college of colleges" [value]="college.collegeTenantId">
+                                  {{ college.collegeName }}
+                              </mat-option>
+                          </mat-select>
+                      </mat-form-field>
+                  </div>
+
+                  <!-- Academic Year -->
+                  <div class="col-md-6 col-sm-6">
+                      <mat-form-field class="full-width">
+                          <mat-label>Select Academic Year</mat-label>
+                          <mat-select [(ngModel)]="selectedAcademicYear" name="selectedAcademicYear" (ngModelChange)="onSelectAcademicYearGetDegreeTypes()">
+                              <mat-option *ngFor="let year of academicYears" [value]="year">
+                                  {{ year }}
+                              </mat-option>
+                          </mat-select>
+                      </mat-form-field>
+                  </div>
+
+                  <!-- Degree Type -->
+                  <div class="col-md-6 col-sm-6">
+                      <mat-form-field class="full-width">
+                          <mat-label>Select Degree Type</mat-label>
+                          <mat-select [(ngModel)]="selectedDegreeType" name="selectedDegreeType" (ngModelChange)="onSelectDegreeTypeGetDegrees()">
+                              <mat-option *ngFor="let degreeType of degreeTypes" [value]="degreeType">
+                                  {{ degreeType }}
+                              </mat-option>
+                          </mat-select>
+                      </mat-form-field>
+                  </div>
+
+                  <!-- Degree Name -->
+                  <div class="col-md-6 col-sm-6">
+                      <mat-form-field>
+                          <mat-label>Select Degree Name</mat-label>
+                          <mat-select [(ngModel)]="selectedDegreeName" name="selectedDegreeName" (ngModelChange)="onSelectDegreeGetDepartments()">
+                              <mat-option *ngFor="let degree of degreeNames" [value]="degree">
+                                  {{ degree }}
+                              </mat-option>
+                          </mat-select>
+                      </mat-form-field>
+                  </div>
+
+                  <!-- Department -->
+                  <div class="col-md-6 col-sm-6">
+                      <mat-form-field>
+                          <mat-label>Select Department</mat-label>
+                          <mat-select [(ngModel)]="selectedDeptId" name="selectedDeptId" (ngModelChange)="onSelectDepartmentGetTerms()">
+                              <mat-option *ngFor="let dept of deptIds" [value]="dept">
+                                  {{ dept }}
+                              </mat-option>
+                          </mat-select>
+                      </mat-form-field>
+                  </div>
+
+                  <!-- Term -->
+                  <div class="col-md-6 col-sm-6">
+                      <mat-form-field>
+                          <mat-label>Select Term</mat-label>
+                          <mat-select [(ngModel)]="selectedTermName" name="selectedTermName">
+                              <mat-option *ngFor="let term of termsNames" [value]="term.termName">
+                                  {{ term.termName }}
+                              </mat-option>
+                          </mat-select>
+                      </mat-form-field>
+                  </div>
+              </div>
+
+              <!-- Note -->
+              <div class="mt-2">
+                  <p class="text-muted">
+                      <strong>Note:</strong> Please select all the required fields (College, Academic Year, Degree Type, Degree Name, Department, and respective Term) before downloading the template.
+                  </p>
+              </div>
+
+              <!-- Dialog Actions -->
+              <div mat-dialog-actions align="end">
+                  <button mat-raised-button color="primary" class="m-2" (click)="downloadTemplate()">
+                      <mat-icon>download</mat-icon> Download
+                  </button>
+                  <button mat-raised-button color="warn" class="m-2" type="button" (click)="showPopup = false">
+                      <mat-icon>cancel</mat-icon> Cancel
+                  </button>
+              </div>
           </div>
-  
-          <div class="form-group">
-            <mat-form-field appearance="outline">
-              <mat-label>Degree Name</mat-label>
-              <mat-select [(ngModel)]="selectedDegree">
-                <mat-option *ngFor="let degree of degrees" [value]="degree">{{ degree }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-  
-          <div class="form-group">
-            <mat-form-field appearance="outline">
-              <mat-label>Term Number</mat-label>
-              <mat-select [(ngModel)]="selectedTerm">
-                <mat-option *ngFor="let term of terms" [value]="term">{{ term }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-  
-          <div class="button-group">
-            <button mat-raised-button color="primary" (click)="downloadTemplate()">Download</button>
-            <button mat-raised-button color="warn" (click)="toggleForm()">Cancel</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  
+      </form>
+  </mat-card>
+</div>

@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { College } from '../entity/college';
+import { AdminService } from '../services/admin.service';
+import { Terms } from '../entity/terms';
 
 @Component({
   selector: 'app-course-enrollement',
@@ -7,26 +10,114 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./course-enrollement.component.css']
 })
 export class CourseEnrollementComponent {
-  academicYears = ['2023-24', '2024-25', '2025-26'];
-  degrees = ['B.Tech', 'M.Tech', 'B.Sc', 'M.Sc'];
-  terms = ['Semester 1', 'Semester 2', 'Semester 3', 'Semester 4'];
-
   selectedAcademicYear = '';
-  selectedDegree = '';
-  selectedTerm = '';
-  showForm = false;
+  selectedDegreeType = '';
+  selectedDegreeName = '';
+  selectedDeptId = '';
+  selectedTermName = '';
+  selectedCollege = '';
 
 
-  constructor(private http: HttpClient) {}
+  colleges: College[] = [];
+  academicYears: string[] = [];
+  degreeTypes: string[] = [];
+  degreeNames: string[] = [];
+  deptIds: string[] = [];
+  termsNames: Terms[] = [];
+  showPopup = false;
+  constructor(private http: HttpClient, private adminService: AdminService) {}
 
-  downloadTemplate() {
-    if (!this.selectedAcademicYear || !this.selectedDegree || !this.selectedTerm) {
-      alert('Please select all fields before downloading.');
+  ngOnInit() {
+    this.getAllCollege();
+  }
+
+  getAllCollege() {
+    this.adminService.getCollege().subscribe(
+      (data: any[]) => this.colleges = data
+    );
+  }
+
+  onSelectCollegeGetAcademicYear(collegeTenantId: string) {
+    this.resetSelections(['AcademicYear', 'DegreeType', 'DegreeName', 'DeptId', 'TermName']);
+    
+    if (!collegeTenantId) {
+      console.warn("No college selected");
       return;
     }
 
-    const apiUrl = `http://localhost:8075/college-admin/template?academicYear=${this.selectedAcademicYear}&degreeName=${this.selectedDegree}&semester=${this.selectedTerm}`;
-    
+    this.adminService.onSelectCollegeGetAcademicYear(collegeTenantId).subscribe(
+      (data: any[]) => {
+        this.academicYears = data.length > 0 ? data : [];
+      },
+      error => console.error("Error fetching academic years:", error)
+    );
+  }
+
+  onSelectAcademicYearGetDegreeTypes() {
+    this.resetSelections(['DegreeType', 'DegreeName', 'DeptId', 'TermName']);
+
+    if (!this.selectedCollege || !this.selectedAcademicYear) return;
+
+    this.adminService.getDegreeTypes(this.selectedCollege, this.selectedAcademicYear).subscribe(
+      (data: any[]) => {
+        this.degreeTypes = data.length > 0 ? data : [];
+      },
+      error => console.error("Error fetching degree types:", error)
+    );
+  }
+
+  onSelectDegreeTypeGetDegrees() {
+    this.resetSelections(['DegreeName', 'DeptId', 'TermName']);
+
+    if (!this.selectedCollege || !this.selectedAcademicYear || !this.selectedDegreeType) return;
+
+    this.adminService.getDegrees(this.selectedCollege, this.selectedAcademicYear, this.selectedDegreeType).subscribe(
+      (data: any[]) => {
+        this.degreeNames = data.length > 0 ? data : [];
+      },
+      error => console.error("Error fetching degrees:", error)
+    );
+  }
+
+  onSelectDegreeGetDepartments() {
+    this.resetSelections(['DeptId', 'TermName']);
+
+    if (!this.selectedCollege || !this.selectedAcademicYear || !this.selectedDegreeType || !this.selectedDegreeName) return;
+
+    this.adminService.getDepartments(this.selectedCollege, this.selectedAcademicYear, this.selectedDegreeType, this.selectedDegreeName).subscribe(
+      (data: any[]) => {
+        this.deptIds = data.length > 0 ? data : [];
+      },
+      error => console.error("Error fetching departments:", error)
+    );
+  }
+
+  onSelectDepartmentGetTerms() {
+    this.resetSelections(['TermName']);
+
+    if (!this.selectedCollege || !this.selectedAcademicYear || !this.selectedDegreeType || !this.selectedDegreeName || !this.selectedDeptId) return;
+
+    this.adminService.getTerms(this.selectedCollege, this.selectedAcademicYear, this.selectedDegreeType, this.selectedDegreeName, this.selectedDeptId).subscribe(
+      (data: any[]) => {
+        this.termsNames = data.length > 0 ? data : [];
+      },
+      error => console.error("Error fetching terms:", error)
+    );
+  }
+
+  resetSelections(fields: string[]) {
+    fields.forEach(field => {
+      (this as any)[`selected${field}`] = '';
+    });
+  }
+  downloadTemplate() {
+    if (!this.selectedAcademicYear || !this.selectedDegreeName || !this.selectedTermName || !this.selectedCollege || !this.selectedDegreeType || !this.selectedDeptId) {
+      alert('Please select all fields before downloading.');
+      return;
+    }
+  
+    const apiUrl = `http://localhost:8075/college-admin/template?academicYear=${this.selectedAcademicYear}&degreeName=${this.selectedDegreeName}&semester=${this.selectedTermName}&college=${this.selectedCollege}&degreeType=${this.selectedDegreeType}&department=${this.selectedDeptId}`;
+  
     this.http.get(apiUrl, { responseType: 'blob' }).subscribe(response => {
       const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       const url = window.URL.createObjectURL(blob);
@@ -41,8 +132,9 @@ export class CourseEnrollementComponent {
       alert('Failed to download template.');
     });
   }
+  
 
-  toggleForm() {
-    this.showForm = !this.showForm; // Toggle form visibility
+  togglePopup() {
+    this.showPopup = !this.showPopup;
   }
 }

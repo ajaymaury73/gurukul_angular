@@ -148,17 +148,17 @@ export class UserComponent {
   }
 
 
-onCourseTypeChange() {
-  const courseTypes = Array.isArray(this.user.degreeType) ? this.user.degreeType : [this.user.degreeType];
+// onCourseTypeChange() {
+//   const courseTypes = Array.isArray(this.user.degreeType) ? this.user.degreeType : [this.user.degreeType];
 
-  if (courseTypes.length) {
-    this.service.getCoursesByType(courseTypes).subscribe((data: any) => {
-        this.courses = data;
-      },
-    );
-  } else {
-    this.courses = []; 
-  }
-}
+//   if (courseTypes.length) {
+//     this.service.getCoursesByType(courseTypes).subscribe((data: any) => {
+//         this.courses = data;
+//       },
+//     );
+//   } else {
+//     this.courses = []; 
+//   }
+// }
 
 }

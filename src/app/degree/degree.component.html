@@ -115,9 +115,11 @@
             <ng-container matColumnDef="departments">
                 <mat-header-cell *matHeaderCellDef> Departments </mat-header-cell>
                 <mat-cell *matCellDef="let degree">
-                    <span *ngFor="let dept of degree.departments; let last = last">
-                        {{ dept.departmentName }}{{ last ? '' : ', ' }}
-                    </span>
+                   
+                    <ul>
+                        <li *ngFor="let dept of degree.departments; ">
+                            {{ dept.departmentName }}                        </li>
+                    </ul>
                 </mat-cell>
             </ng-container>
     
