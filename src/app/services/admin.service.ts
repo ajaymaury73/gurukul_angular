@@ -6,13 +6,14 @@ import { DataService } from './data.service';
 import { College } from '../entity/college';
 import { AcademicCalendar } from '../entity/academicCalendar';
 import { Degree } from '../entity/degree';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
   
-  constructor(private dataService: DataService, private urlConstant: UrlConstant) {
+  constructor(private dataService: DataService, private urlConstant: UrlConstant,private http: HttpClient) {
   }
 
  
@@ -164,5 +165,27 @@ getTerms(collegeTenantId: string, academicYear: string, degreeType: string, degr
   params.set('deptId', deptId);
   return this.dataService.getObjects(url+ `college-admin/get-terms?` + params);
 }
+downloadTemplate(
+  academicYear: string, 
+  degreeName: string, 
+  semester: string, 
+  college: string, 
+  degreeType: string, 
+  department: string
+): Observable<Blob> {
+  const url = `${this.urlConstant.SERVER_PORT}`
+
+
+  const apiUrl = `${url}college-admin/template?academicYear=${academicYear}&degreeName=${degreeName}&semester=${semester}&college=${college}&degreeType=${degreeType}&department=${department}`;
+  
+  return this.http.get(apiUrl, { responseType: 'blob' });
+}
+
+getAllCourses(){
+  const url = `${this.urlConstant.SERVER_PORT}`;
+  return this.dataService.getObjects(url + 'college-admin/get-courses');
+}
+
+
 
 }
