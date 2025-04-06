@@ -13,6 +13,8 @@ export class HeaderComponent {
   isAuthenticated = false;
   userProfile: KeycloakProfile | null = null;
   userRoles: string[] = [];
+  showSettings = false;
+
 
   constructor(private keycloakService: KeycloakService, private adminService: AdminService, private router: Router) {
     this.loadUserDetails();
@@ -86,5 +88,12 @@ export class HeaderComponent {
   changeTheme() {
     this.currentThemeIndex = (this.currentThemeIndex + 1) % this.themes.length;
     this.currentTheme = this.themes[this.currentThemeIndex]; // Update theme
+  }
+  toggleSettings() {
+    this.showSettings = !this.showSettings;
+  }
+
+  changePassword() {
+    this.router.navigate(['/change-password']);
   }
 }

@@ -25,4 +25,13 @@
   .mat-elevation-z8 {
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
   }
+
+  mat-accordion {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  
+  mat-expansion-panel {
+    margin-bottom: 1rem;
+  }
   

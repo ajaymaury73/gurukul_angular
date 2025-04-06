@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { User } from '../entity/user';
+import { User, UserDocument, UserQualification } from '../entity/user';
 import { Role } from '../entity/role';
 import { UserService } from '../services/user.service';
 import { MatTableDataSource } from '@angular/material/table';
@@ -7,6 +7,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { DegreeType } from '../entity/degree';
 import { NotificationService } from '../services/notification.service';
+import { College } from '../entity/college';
+import { AdminService } from '../services/admin.service';
 
 @Component({
   selector: 'app-user',
@@ -21,7 +23,8 @@ export class UserComponent {
 
   displayedColumns: string[] = ['username', 'firstName', 'lastName', 'email', 'mobileNumber', 'roles', 'actions'];
   degreeTypes = Object.values(DegreeType);
-  courses: string[] = []; // Holds courses based on selected courseType
+  courses: string[] = []; 
+  bloodGroups: string[] = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-', 'Other'];
 
   dataSource = new MatTableDataSource<User>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -30,13 +33,16 @@ export class UserComponent {
 
   tenants: [] = [];
 
-  constructor(private service: UserService, private cdRef: ChangeDetectorRef,public notificationService:NotificationService) {
+  constructor(private service: UserService, private cdRef: ChangeDetectorRef,public notificationService:NotificationService,private adminService:AdminService) {
     this.user.roles = [];
   }
 
   ngOnInit() {
     this.getAllUsers();
     this.getAllTenats();
+    this.getAllCollege();
+
+    
   }
 
   ngAfterViewInit() {
@@ -148,17 +154,70 @@ export class UserComponent {
   }
 
 
-// onCourseTypeChange() {
-//   const courseTypes = Array.isArray(this.user.degreeType) ? this.user.degreeType : [this.user.degreeType];
 
-//   if (courseTypes.length) {
-//     this.service.getCoursesByType(courseTypes).subscribe((data: any) => {
-//         this.courses = data;
-//       },
-//     );
-//   } else {
-//     this.courses = []; 
-//   }
-// }
+
+ colleges: College[] = [];
+  getAllCollege() {
+    this.adminService.getCollege().subscribe(
+      (data: any[]) => this.colleges = data
+    );
+  }
+
+  // Add this to your component class
+addNewAddress() {
+  if (!this.user.userAddressDetails) {
+    this.user.userAddressDetails = [];
+  }
+  this.user.userAddressDetails.push({
+    type: '',
+    street: '',
+    city: '',
+    state: '',
+    country: '',
+    pinCode: ''
+  });
+}
+
+removeAddress(index: number) {
+  this.user.userAddressDetails.splice(index, 1);
+}
+
+
+// Add these methods to your component class
+addNewQualification() {
+  if (!this.user.qualificationDetails) {
+    this.user.qualificationDetails = [];
+  }
+  this.user.qualificationDetails.push(new UserQualification({
+    qualificationLevel: '',
+    boardOrUniversity: '',
+    maxMarks: 0,
+    obtainedMarks: 0,
+    percentage: 0,
+    cgpa: 0
+  }));
+}
+
+removeQualification(index: number) {
+  this.user.qualificationDetails.splice(index, 1);
+}
+
+addNewDocument() {
+  if (!this.user.userDocuments) {
+    this.user.userDocuments = [];
+  }
+  this.user.userDocuments.push(new UserDocument({
+    documentName: '',
+    documentNumber: '',
+    fileData: new Uint8Array(),
+    fileType: 'application/pdf'
+  }));
+}
+
+removeDocument(index: number) {
+  this.user.userDocuments.splice(index, 1);
+}
+
+
 
 }

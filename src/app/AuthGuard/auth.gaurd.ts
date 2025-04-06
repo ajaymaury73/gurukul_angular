@@ -19,7 +19,7 @@ export class AuthGuard extends KeycloakAuthGuard implements CanActivate {
 
     const requiredRoles = route.data['roles'] as string[];
     if (!requiredRoles || requiredRoles.length === 0) {
-      return true; // Allow access if no roles are required
+      return true; 
     }
 
     const hasRole = requiredRoles.some(role => this.roles.includes(role));

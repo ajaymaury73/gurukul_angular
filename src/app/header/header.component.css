@@ -28,3 +28,34 @@
 .font-college{
 font-weight: 500;
 }
+
+.settings-card {
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    background: white;
+    border-radius: 8px;
+    padding: 10px;
+    min-width: 200px;
+    z-index: 1000;
+}
+
+.settings-card button {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 8px;
+    border: none;
+    background: none;
+    text-align: left;
+    font-size: 14px;
+}
+
+.settings-card button i {
+    margin-right: 10px;
+}
+
+.settings-card button:hover {
+    background: #f1f1f1;
+}
+

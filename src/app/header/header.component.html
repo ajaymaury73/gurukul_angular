@@ -1,7 +1,7 @@
-<nav class="navbar navbar-expand-lg shadow"
+<nav class="navbar navbar-expand-lg shadow px-3"
     [ngStyle]="{'background-color': currentTheme.bgColor, 'color': currentTheme.textColor}">
     <div class="container-fluid">
-        <!-- Logo & Title on the Left -->
+        <!-- Logo & Title -->
         <a class="navbar-brand d-flex align-items-center" href="#">
             <img src="assets/gurulul.webp" alt="Logo" width="40" height="40" class="me-2">
             <h3 class="mb-0 d-none d-md-block" [ngStyle]="{'color': currentTheme.textColor}">
@@ -17,26 +17,34 @@
 
         <!-- Centered College Name for Small Screens -->
         <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-            <h3 class="d-block d-md-none text-center font-college" [ngStyle]="{'color': currentTheme.textColor}">
+            <h3 class="d-block d-md-none text-center font-college ml-3" [ngStyle]="{'color': currentTheme.textColor}">
                 Gurukul Inter College Dhanghata
             </h3>
         </div>
 
-        <!-- Right Side Buttons -->
+        <!-- Right Side: Profile & Settings -->
         <div class="d-flex align-items-center">
-            <button class="btn me-2" [ngStyle]="{'color': currentTheme.textColor, 'border-color': currentTheme.textColor}"
-                (click)="login()">
+            <button class="btn me-2" [ngStyle]="{'color': currentTheme.textColor}" (click)="login()">
                 <i class="fa-solid fa-user"></i> {{ userProfile?.firstName || 'Login' }}
             </button>
-            <button class="btn me-2" [ngStyle]="{'color': currentTheme.textColor, 'border-color': currentTheme.textColor}"
-                (click)="logout()">
-                <i class="fa-solid fa-right-from-bracket"></i> Logout
-            </button>
-            <!-- Theme Change Button -->
-            <button class="btn" [ngStyle]="{'color': currentTheme.textColor, 'border-color': currentTheme.textColor}"
-                (click)="changeTheme()">
-                <i class="fa-solid fa-paint-brush"></i> Change Theme
-            </button>
+
+            <!-- Settings Dropdown -->
+            <div class="dropdown">
+                <button class="btn dropdown-toggle" id="settingsButton" (click)="toggleSettings()">
+                    <i class="fa-solid fa-gear"></i>
+                </button>
+                <div *ngIf="showSettings" class="settings-card shadow">
+                    <button class="dropdown-item" (click)="changeTheme()">
+                        <i class="fa-solid fa-paint-brush"></i> Change Theme
+                    </button>
+                    <button class="dropdown-item" (click)="changePassword()">
+                        <i class="fa-solid fa-key"></i> Change Password
+                    </button>
+                    <button class="dropdown-item text-danger" (click)="logout()">
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </nav>
